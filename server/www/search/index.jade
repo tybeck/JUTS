@@ -1,0 +1,13 @@
+ul
+
+	each item, i in results
+		li
+			div Report: 
+				a(href="/report/#{item.report.id}") #{item.report.id}
+			if item.report.jira
+				div JIRA Ticket: 
+					a(href="http://jira.tools.us.gspt.net/browse/#{item.report.jira.key}") #{item.report.jira.key}
+			div User: 
+				a(href="/report/#{item.report.id}") #{item.report.commit.changeset.author}
+			div(class="defect-date") #{estTime[i].hours}:#{estTime[i].minutes} #{estTime[i].ampm}, #{estTime[i].month} #{estTime[i].day} #{estTime[i].year}
+

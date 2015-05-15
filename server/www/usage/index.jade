@@ -1,0 +1,51 @@
+doctype 5
+html
+	head
+		include ../mixins/assets
+		title JUTS - Usage
+	body
+		include ../mixins/header
+		div(id="wrapper")
+			div(class="juts-container", id="content")
+				div(class="juts-container-wrapper")
+					h2 Usage
+					div(class="juts-block-info-wrapper")
+						h3 After Install
+						p
+							| When you finish installing, you'll have multiple ways to fire up a test.  The main way to start up a test is to open your 
+							strong Applications
+							|  menu. You'll see:
+						img(class="juts-img-border", src="/reports/img/caps/juts-menu.png")
+						p
+							| Please note, if your webstore has intergration tests configured; you'll need to have your application server running
+							| for your tests to run; otherwise you'll be prompted to do so.
+						h3 Terminal Usage
+						p 
+							| You can also run your tests via terminal if that's your flavor.  The terminal bound command is 
+							span(class="juts-important") jutstest&lt;eserver.x&gt;
+							| , where 
+							span(class="juts-imporant") eserver.x 
+							| is the number of the eserver your running on (ex. 
+							span(class="juts-important") jutstest1
+							| ).
+						h3 Terminal - Available Arguments
+						div(class="juts-properties-syntax")
+							ul
+								li
+									strong bash4.12$ &gt; 
+									strong jutstest&lt;eserver.x&gt;
+									span  --help
+								li
+									span(class="juts-property") -o, --open
+									span(class="juts-description") Open report's in default browser.
+								li
+									span(class="juts-property") -s, --showall
+									span(class="juts-description") Show all test results, including those that passed.
+								li
+									span(class="juts-property") -v, --version
+									span(class="juts-description") JUTS version number
+								li
+									span(class="juts-property") -h, --help
+									span(class="juts-description") Show all test results, including those that passed.
+			div(id="push")
+		include ../mixins/footer

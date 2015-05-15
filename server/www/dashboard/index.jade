@@ -1,0 +1,56 @@
+doctype 5
+html
+	head
+		include ../mixins/assets
+		title JUTS - Dashboard
+	body
+		div(id="wrapper")
+			include ../mixins/header
+			div(class="juts-container", id="content")
+				div(class="juts-container-wrapper")
+					h1 Welcome,
+					if error !== null
+						div(class="juts-block-info-wrapper juts-error-information-wrapper")
+							p
+								| An error was reported when running through the test scripts, which means the test scripts are broken!  Unless
+								| the test scripts are fixed, JUTS will not be able to run through properly.
+							div(class="juts-error")
+								span(class="juts-error-message") #{error.msg}
+								div(class="juts-error-trace")
+									ul
+										each item in error.trace
+											div #{item.file}:#{item.line}#{item.function ? ' (in function "' + item.function + '")' : ''}
+					h2 Recent Reports
+					div(class="juts-wrapper")
+						p
+							| Below is a list of recent report's that have been triggered.  When a new report finishes, you'll be able to
+							| find it here.  Each report is fired via Fisheye when it find's javascript changes.  If you see an issue here,
+							| please report it to the Storefront Team.
+						if query.length == 0
+							p(class="juts-no-reports")
+								| No reports have been logged yet; when a commit is made, JUTS will pick this 
+								| up which it will run tests against. Recent reports will be shown here.
+						else
+							div(class="juts-recent-reports-wrapper")
+								ul(class="juts-recent-reports")
+									each item, index in query
+										li(class="juts-recent-report-item")
+											div(class="juts-report-id") 
+												span ID #: 
+												span #{item.report.id}
+											div(class="juts-report-time")
+												div #{datetimes[index].weekday}, #{datetimes[index].month} #{datetimes[index].day}, #{datetimes[index].year}
+												div #{datetimes[index].hours}:#{datetimes[index].minutes} #{datetimes[index].ampm}
+											div(class="juts-report-autor")
+												span Author: 
+												span #{item.report.commit.changeset.author}
+											a(class="juts-view-report-link", href="/report/#{item.report.id}") View Report
+					h2 How It Works
+					div(class="juts-wrapper")
+						p(class="juts-description")
+							| JUTS (JavaScript Unit Testing Suite) waits for communication from Fisheye to trigger any tests.  After a commit is made,
+							| Fisheye will trigger an webhook to JUTS which will queue the commit until any other tests are finished (if any).  JUTS 
+							| will then run it's tests and generate a report against the tests that were implemented.  After generating the report, if
+							| any tests failed - JUTS will send an automated e-mail to the author of the revision with a CQI (JIRA) ticket.
+			div(id="push")
+		include ../mixins/footer

@@ -1,0 +1,127 @@
+doctype 5
+html
+	head
+		include ../mixins/assets
+		title JUTS - API
+		script(type="text/javascript" src="/reports/js/highlight.pack.js")
+		link(rel="stylesheet", href="/reports/css/highlighting.css")
+		script.
+			hljs.initHighlightingOnLoad();
+	body
+		include ../mixins/header
+		div(id="wrapper")
+			div(class="juts-container", id="content")
+				div(class="juts-container-wrapper")
+					h2 API Documentation v#{version}
+					div(class="juts-block-info-wrapper")
+						h3 JUTS API
+						ul(class="juts-api")
+							li
+								div(class="juts-test-method") begin()
+								div(class="juts-signature-text") Signature:
+								span(class="juts-signature-args") 
+									strong(class="juts-method-args") begin
+									| ([
+									strong Function 
+									| tests|
+									strong Array
+									| &lt;
+									strong Function
+									|  tests&gt;])
+								p(class="juts-test-description")
+									| Begin's the start of your testing for functional and intergration testing. You should always provide an begin
+									| invocation in the beginning of your testing node. Our 
+									strong(class="juts-test-boolean") this
+									|  keyword is equivalent to the JUTS object.
+								pre
+									code(class="javascript juts-code")
+										| juts.begin(function() { }); // Functional Testing ...
+										| juts.begin([ // Intergration Testing
+										| 	function Homepage() {},
+										| 	function Login() {}
+										| ]);
+							li
+								div(class="juts-test-method") beginSuite()
+								div(class="juts-signature-text") Signature:
+								span(class="juts-signature-args") 
+									strong(class="juts-method-args") beginSuite
+									| (
+									strong String 
+									| name, 
+									strong Function 
+									| fn)
+								p(class="juts-test-description")
+									| Begin's the start of a new testing suite to run tests within.  Test's within our 
+									strong(class="juts-test-boolean") fn
+									|  will be attached to the defined suite. Our 
+									strong(class="juts-test-boolean") this
+									|  keyword is equivalent to the 
+									strong(class="juts-test-boolean") tester
+									|  API for within our suite.
+								pre
+									code(class="javascript juts-code")
+										| juts.beginSuite("My Suite Name Here", function() {
+										| 	// this.assert(...);
+										| })	
+							li
+								div(class="juts-test-method") done()
+								div(class="juts-signature-text") Signature:
+								span(class="juts-signature-args") 
+									strong(class="juts-method-args") done
+									| ()
+								p(class="juts-test-description")
+									strong(class="juts-test-boolean") done() 
+									| allow's you to completely finish your testing for the specific testing node your in (functional, intergration).  
+									| This 
+									strong must be called
+									|  somewhere within your testing node to exit testing; you may call it anywhere.  Note, usually you should always call 
+									strong(class="juts-test-boolean") done()
+									|  as your last invocation, this way all your tests will run.  Once invoked; JUTS will completely exit from the testing node
+									| and if you have tests written 
+									strong after
+									|  the invocation of 
+									strong(class="juts-test-boolean") done()
+									| , they will not get tested!
+							li
+								div(class="juts-test-method") open()
+								div(class="juts-signature-text") Signature:
+								span(class="juts-signature-args") 
+									strong(class="juts-method-args") open
+									| (
+									strong String 
+									| url)
+								p(class="juts-test-description")
+									| This method is only intended for 
+									strong(class="juts-test-boolean") intergration testing
+									| , and should only be used within that testing node; Functional testing 
+									| does not require page navigation.  As just stated, 
+									strong(class="juts-test-boolean") open()
+									|  will preform a navigation request with the url given.
+						h3 Tester Suite API
+						p
+							| Test API is attached to the 
+							strong(class="juts-test-boolean") this
+							|  keyword when starting a new suite with 
+							strong(class="juts-test-boolean") beginSuite()
+							| .  You can also access these method's directly from the global JUTS object.
+						ul(class="juts-api")
+							li
+								div(class="juts-test-method") assert()
+								div(class="juts-test-signature")
+									div(class="juts-signature-text") Signature:
+									span(class="juts-signature-args") 
+										strong(class="juts-method-args") assert
+										| (
+										strong Boolean 
+										| condition, 
+										strong String 
+										| message)
+								p(class="juts-test-description")
+									| Asserts that the provided condition strictly resolves to a boolean 
+									strong(class="juts-test-boolean") true
+									|.
+								pre
+									code(class="javascript juts-code")
+										| juts.assert((1 + 1 == 2), "Does 1 + 1 equal 2?");
+			div(id="push")
+		include ../mixins/footer

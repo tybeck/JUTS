@@ -1,0 +1,312 @@
+@charset "UTF-8";
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+body {
+	background-color: #EEE;
+	font-family: "Palatino Linotype";
+	font-weight: normal;
+}
+
+ul {
+	list-style-type: none;
+}
+
+h1 {
+	font-size: 25px;
+	font-weight: normal;
+	margin-bottom: 10px;
+}
+
+.juts-header {
+	background: #0B172D;
+	height: 45px;
+}
+
+.juts-header-wrapper,
+.juts-reports-wrapper {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1024px;
+}
+
+a.juts-logo {
+    color: #FFFFFF;
+    display: inline-block;
+    font-size: 30px;
+    margin-left: 15px;
+    margin-top: 5px;
+    text-decoration: none;
+}
+
+a.juts-logo:hover {
+	color: #DBDBDB;
+}
+
+a.juts-logo .juts-pound {
+	color: #DB8B46;
+	display: inline-block;
+	font-weight: bold;
+	font-size: 25px;
+}
+
+.juts-reports {
+	margin-left: 15px;
+	margin-top: 10px;
+}
+
+.juts-suite {
+    display: inline-block;
+    margin: 0 10px 20px 0;
+    vertical-align: top;
+    width: 488px;
+}
+
+.juts-test-failed {
+	display: inline-block;
+}
+
+.juts-test-passed {
+	display: inline-block;
+	background: #a9db80; /* Old browsers */
+	background: -moz-linear-gradient(top, #a9db80 0%, #96c56f 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a9db80), color-stop(100%,#96c56f)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #a9db80 0%,#96c56f 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #a9db80 0%,#96c56f 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #a9db80 0%,#96c56f 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #a9db80 0%,#96c56f 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a9db80', endColorstr='#96c56f',GradientType=0 ); /* IE6-9 */
+	border-radius: 5px;
+	padding: 5px;
+}
+
+.juts-test-failed {
+	display: inline-block;
+	background: #a90329; /* Old browsers */
+	background: -moz-linear-gradient(top, #a90329 0%, #8f0222 44%, #6d0019 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a90329), color-stop(44%,#8f0222), color-stop(100%,#6d0019)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #a90329 0%,#8f0222 44%,#6d0019 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #a90329 0%,#8f0222 44%,#6d0019 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #a90329 0%,#8f0222 44%,#6d0019 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #a90329 0%,#8f0222 44%,#6d0019 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', endColorstr='#6d0019',GradientType=0 ); /* IE6-9 */
+	border-radius: 5px;
+	padding: 5px;
+	color: #FFF;
+}
+
+.juts-suite-passed {
+	font-weight: bold;
+	color: #8AB66B;
+}
+
+.juts-suite-failed {
+	font-weight: bold;
+	color: #A90329;
+}
+
+.juts-test-list li {
+	margin-bottom: 5px;
+}
+
+.juts-suite-wrapper {
+    border-radius: 5px 5px 5px 5px;
+    padding: 10px 0 3px 10px;
+    background: #FFF;
+}
+
+h1.juts-overview {
+    font-size: 40px;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+p.juts-all-passed {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-radius: 5px 5px 5px 5px;
+    padding: 10px 0 10px 10px;
+}
+
+.juts-statistics ul {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-radius: 5px 5px 5px 5px;
+    display: inline-block;
+    margin: 0 0 20px;
+    padding: 10px;
+    width: 970px;
+}
+
+.juts-statistics ul li {
+	margin-bottom: 10px;
+}
+
+.juts-statistics ul li:last-child {
+	margin-bottom: 0;
+}
+
+.juts-attachments {
+	font-family: "Courier New";
+	margin-bottom: 10px;
+	font-weight: bold;
+	display: block;
+	margin-top: 15px;
+	font-size: 14px;
+}
+
+.juts-suite-wrapper a {
+    color: #333333;
+    font-size: 12px;
+    margin-left: 7px;
+    text-decoration: none;
+}
+
+.juts-suite-wrapper a:hover {
+	color: #000;
+}
+
+.juts-attachments-wrapper {
+	margin-bottom: 5px;
+}
+
+.juts-selenium-list {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-radius: 5px 5px 5px 5px;
+    margin-bottom: 15px;
+    padding: 10px 0 3px 10px;
+}
+
+.juts-selenium-list li {
+	margin-bottom: 10px;
+}
+
+.juts-selenium-passed .juts-selenium-item-number {
+	background: #a9db80; /* Old browsers */
+	background: -moz-linear-gradient(top, #a9db80 0%, #96c56f 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a9db80), color-stop(100%,#96c56f)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #a9db80 0%,#96c56f 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #a9db80 0%,#96c56f 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #a9db80 0%,#96c56f 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #a9db80 0%,#96c56f 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a9db80', endColorstr='#96c56f',GradientType=0 ); /* IE6-9 */
+    border-radius: 5px 5px 5px 5px;
+    display: inline-block;
+    text-align: center;
+    width: 30px;
+    padding: 5px;
+}
+
+.juts-selenium-failed .juts-selenium-item-number {
+	background: #a90329; /* Old browsers */
+	background: -moz-linear-gradient(top, #a90329 0%, #8f0222 44%, #6d0019 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a90329), color-stop(44%,#8f0222), color-stop(100%,#6d0019)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #a90329 0%,#8f0222 44%,#6d0019 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #a90329 0%,#8f0222 44%,#6d0019 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #a90329 0%,#8f0222 44%,#6d0019 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #a90329 0%,#8f0222 44%,#6d0019 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', endColorstr='#6d0019',GradientType=0 ); /* IE6-9 */
+    border-radius: 5px 5px 5px 5px;
+    display: inline-block;
+    text-align: center;
+    width: 30px;
+    padding: 5px;
+    color: #FFF;
+}
+
+.juts-selenium-command {
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 5px;
+	margin-top: 2px;
+	width: 175px;
+}
+
+.juts-selenium-target {
+	display: inline-block;
+	vertical-align: top;
+	width: 500px;
+}
+
+.juts-selenium-value {
+	display: inline-block;
+	vertical-align: top;
+	width: 270px;
+}
+
+.juts-selenium-desc-number {
+    display: inline-block;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: top;
+    width: 40px;
+}
+
+.juts-selenium-desc-command {
+    display: inline-block;
+    font-weight: bold;
+    text-align: left;
+    vertical-align: top;
+    width: 180px;
+}
+
+.juts-selenium-desc-target {
+    display: inline-block;
+    font-weight: bold;
+    vertical-align: top;
+    width: 498px;
+}
+
+.juts-selenium-desc-value {
+	font-weight: bold;
+}
+
+.juts-selenium-list-description {
+	margin-bottom: 15px;
+	margin-top: 5px;
+}

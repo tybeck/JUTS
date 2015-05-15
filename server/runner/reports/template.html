@@ -1,0 +1,163 @@
+<html>
+	<head>
+
+		<link rel="stylesheet" href="lib/css/runner.css" />
+
+	</head>
+	<body>
+
+		<div class="juts-header">
+			<div class="juts-header-wrapper">
+				<div class="juts-header-content">
+					<a href="http://juts.gsiccorp.net/" class="juts-logo">
+						<span class="juts-pound">#</span>
+						<span>juts</span>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="juts-reports">
+			<div class="juts-reports-wrapper">
+				<div class="juts-reports-content">
+
+					<h1 class="juts-overview">Overview</h1>
+			
+					<div class="juts-statistics">
+						<ul>
+							<li>
+								<span>Total Time: </span>
+								<span>{{ this.time }} seconds</span>
+							</li>
+							<li>
+								<span>Total Tests: </span>
+								<span>{{ this.runner.statistics.total }}</span>
+							</li>
+						</ul>
+					</div>
+
+					{% var self = this; %}
+
+					{% this.runner.tests.forEach(function(suite, index) { %}
+				 		<div class="juts-suite">
+				 			
+				 			<h1>
+				 				<span class="juts-suite-name">{{ suite.name }}</span>
+				 				<span class="juts-suite-status">
+				 				{% if(!suite.failed) { %}
+
+				 						<span class="juts-suite-passed">COMPLETE PASS</span>
+
+				 					{% } else { %}	
+
+				 						<span class="juts-suite-failed">FAIL</span>
+
+				 				{% } %}
+				 				</span>
+				 			</h1>
+
+				 			{% var testIndex = 0; %}
+
+				 			<div class="juts-suite-wrapper">
+
+					 			{% if(suite.failed) { %}
+
+					 			<ul class="juts-test-list">
+
+						 			{% suite.tests.forEach(function(test, currentIndex) { %}
+
+						 				{% testIndex = (currentIndex + 1); %}
+
+						 				{% if(!test.condition) { %}
+
+						 					<li class="juts-failed-list-item">
+						 						<span class="juts-test-failed">{{ testIndex }}.</span>
+						 						<span class="juts-test-failed-msg just-test-msg">{{ test.message }}</span>
+						 					</li>
+
+						 				{% } else { %}
+						 					{% if(self.showall) { %}
+
+							 					<li class="juts-passed-list-item">
+							 						<span class="juts-test-passed">{{ testIndex }}.</span>
+							 						<span class="juts-test-passed-msg just-test-msg">{{ test.message }}</span>
+							 					</li>
+
+						 					{% } %}
+						 				{% } %}
+
+						 			{% }); %}
+
+					 			</ul>
+
+					 			{% } else { %}
+
+					 				<p class="juts-all-passed">All tests in this suite passed.</p>
+
+					 			{% } %}
+
+					 			{% if(suite.imagery.length) { %}
+					 				<div class="juts-attachments-wrapper">
+						 				<div class="juts-attachments">Image Attachments:</div>
+						 				{% suite.imagery.forEach(function(img, index) { %}
+											
+						 					<a href="../../www/lib/screenshots/{{img}}">{{img}}</a>
+
+						 				{% }); %}
+					 				</div>
+					 			{% } %}
+
+				 			</div>
+
+				 		</div>
+				 	{% }); %}
+
+				 	{% if(this.runner.selenium.tests.length) { %}
+				 	
+				 		<h1 class="juts-overview">Selenium Tests</h1>
+
+				 		<ul class="juts-selenium-list">
+
+				 			<li class="juts-selenium-list-description">
+				 				<span class="juts-selenium-desc-number">#</span>
+				 				<span class="juts-selenium-desc-command">Command</span>
+				 				<span class="juts-selenium-desc-target">Target</span>
+				 				<span class="juts-selenium-desc-value">Value</span>
+				 			</li>
+
+				 		{% this.runner.selenium.tests.forEach(function(item, index) { %}
+
+							{% var seleniumIndex = (index + 1); %}
+
+							{% if(!item.passed) { %}
+
+								{% var decoded = decodeURIComponent(item.test); %}
+
+								<li class="juts-selenium-failed">
+									<span class="juts-selenium-item-number">{{ seleniumIndex }}.)</span>
+									<span class="juts-selenium-message">{{ decoded }}</span>
+								</li>
+
+							{% } else { %}
+
+								<li class="juts-selenium-passed">
+									<span class="juts-selenium-item-number">{{ seleniumIndex }}.)</span>
+									<span class="juts-selenium-command">{{ item.test[0] }}</span>
+									<span class="juts-selenium-target">{{ item.test[1] }}</span>
+									<span class="juts-selenium-value">{{ item.test[2] }}</span>
+								</li>
+
+							{% } %}
+
+				 		{% }); %}
+				 		</ul>
+
+				 	{% } %}
+
+
+				</div>
+			</div>
+		</div>
+
+	</body>
+</html>

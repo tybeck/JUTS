@@ -1,0 +1,182 @@
+doctype 5
+html
+	head
+		include ../mixins/assets
+		title JUTS - Report ##{report.id}
+	body
+		div(id="wrapper")
+			include ../mixins/header
+			div(id="container")
+				div(class="juts-container", id="content")
+					div(class="juts-container-wrapper")
+
+						if ! report.error
+
+							div(class="juts-overview")
+								h2 Overview
+								ul(class="juts-information")
+									li(class="juts-general")
+										h3 General
+										ul
+											li 
+												span Test completed at 
+												span(class="juts-time") #{datetime.hours}:#{datetime.minutes} #{datetime.ampm} on #{datetime.weekday}, #{datetime.month} #{datetime.day}, #{datetime.year}.
+											li
+												p(class="juts-finished-overview")
+													| Finished in 
+													strong #{report.time} 
+													| seconds with 
+													span(class="juts-stat-failed") #{report.statistics.failed} 
+													| fails and 
+													span(class="juts-stat-passed") #{report.statistics.passed} 
+													| passes.
+											li
+												span Report #: 
+												span(class="juts-report-id") 
+													a(href="/report/#{report.id}") #{report.id}
+											li(class="juts-status")
+												span Test Status: 
+												span(class="juts-complete") Complete
+											li(class="juts-total-tests")
+												span Total Tests: 
+												span #{report.statistics.total}
+									li(class="juts-jira")
+
+										h3(class="juts-info-heading")
+											img(src="/reports/img/jira.png")
+											a(href="http://jira.tools.us.gspt.net/", target="_blank") JIRA
+										if report.jira
+											ul
+												li
+													p(class="juts-alert") 
+														| Are you #{report.commit.changeset.author}?  
+														| If you think this ticket has been incorrectly assigned 
+														| to you; please contact the Storefront Team for assistance.  Thank you!
+												li
+													span ID #: 
+													span #{report.jira.id}
+												li 
+													span Ticket #: 
+													span
+														a(href="http://jira.tools.us.gspt.net/browse/#{report.jira.key}") #{report.jira.key}
+												li
+													span Assigned To: 
+													span
+														form(action="http://secdevtlsapp03.us.gspt.net/governance/crowd", method="POST", class="juts-user-form")
+															input(type="hidden", name="username", value="#{report.commit.changeset.author}")
+															a(class="juts-crowd-link", href="javascript:void(0);") #{report.commit.changeset.author}
+										else
+											ul
+												li
+													p(class="juts-alert")
+														| No ticket was created for this report because no issues were found during testing.
+								ul(class="juts-information juts-svn-wrapper")
+									li(class="juts-svn juts-svn-fixed")
+										a(href="javascript:void(0);", class="juts-svn-toggle") +
+										h3(class="juts-info-heading")
+											img(src="/reports/img/svn-icon.png")
+											a(href="http://svn.gspt.net", target="_blank") SVN
+										ul
+											li(class="juts-svn-message")
+												span Commit Message: 
+												span #{report.commit.changeset.comment}
+											li(class="juts-svn-wrap") 
+												span Committer: 
+												span #{report.commit.changeset.author}
+											li(class="juts-svn-wrap")
+												span Revision #: 
+												span #{report.commit.changeset.csid}
+											li(class="juts-svn-wrap")
+												span Cartridge: 
+												span #{report.commit.repository.name}
+											li(class="juts-paths")
+												ul
+													each val, index in report.paths
+														li(class="juts-file")= (index + 1) + '.)' + val
+							- var state, cls;
+							div(class="juts-suites")
+								h2 Suites
+								ul(class="juts-suites-overview")
+									each suite in report.tests
+										li(class="juts-test-suite")
+											- if(suite.failed == 0) state = 'COMPLETE PASS', cls = 'juts-state-complete';
+											- if(suite.failed > 0 && suite.passed > 0) state = 'PARTIAL FAIL', cls = 'juts-state-partial';
+											- if(suite.failed > 0 && suite.passed == 0) state = 'FAIL', cls = 'juts-state-fail';
+											h3 
+												| #{suite.name} 
+												span(class="#{cls}") #{state}
+											ul
+												each test in suite.tests
+													li(class="juts-test")
+														span(class="#{test.condition ? 'juts-passed' : 'juts-failed'}") #{test.condition ? 'PASS' : 'FAIL'}
+														span #{test.message}
+											if suite.imagery.length
+												p(class="juts-attachments") Image Attachments
+												ul(class="juts-list-attachments")
+													each src in suite.imagery
+														li(class="juts-img")
+															a(href="/screenshots/#{src}")
+																| #{src}
+											div(class="juts-test-suite-info")
+												ul(class="juts-test-info-list")
+													li(class="juts-test-info-item")
+														span(class="juts-test-info-name") Pass Rate: 
+														span #{(suite.passed / (suite.failed + suite.passed) * 100)}%
+													li(class="juts-test-info-item")
+														span(class="juts-test-info-name") Assertions: 
+														span #{suite.passed + suite.failed}
+													li(class="juts-test-info-item")
+														span(class="juts-test-info-name juts-test-info-passed") Passed: 
+														span #{suite.passed}
+													li(class="juts-test-info-item")
+														span(class="juts-test-info-name juts-test-info-failed") Failed: 
+														span #{suite.failed}
+							div(class="juts-selenium-wrapper")
+								if report.selenium.tests.length
+									h2 Selenium Tests
+									ul(class="juts-selenium-list")
+										li(class="juts-selenium-list-desc")
+											span(class="juts-selenium-number") #
+											span(class="juts-selenium-command") Command
+											span(class="juts-selenium-target") Target
+											span(class="juts-selenium-value") Value
+										each item, index in report.selenium.tests
+											li(class="juts-selenium-list-item")
+												if item.passed
+													span(class="juts-selenium-item-number juts-selenium-item-passed") #{(index + 1)}.)
+													span(class="juts-selenium-item-command") #{item.test[0]}
+													span(class="juts-selenium-item-target") #{item.test[1]}
+													span(class="juts-selenium-item-value") #{item.test[2]}
+												else
+													span(class="juts-selenium-item-number juts-selenium-item-failed") #{(index + 1)}.)
+													span(class="juts-selenium-item-message") #{decodeURIComponent(item.test)}
+						else
+							
+							div(class="juts-overview")
+								h2 Overview
+								ul(class="juts-information")
+									li(class="juts-general")
+										h3 General
+										ul
+											li 
+												span Test completed at 
+												span(class="juts-time") #{datetime.hours}:#{datetime.minutes} #{datetime.ampm} on #{datetime.weekday}, #{datetime.month} #{datetime.day}, #{datetime.year}.
+											li
+												span Report #: 
+												span(class="juts-report-id") 
+													a(href="/report/#{report.id}") #{report.id}
+											li(class="juts-status")
+												span Test Status: 
+												span(class="juts-complete") Complete
+								div(class="juts-block-info-wrapper juts-error-information-wrapper")
+									p
+										| An error was reported when running through the test scripts, which means the test scripts are broken!  Unless
+										| the test scripts are fixed, JUTS will not be able to run through properly.
+									div(class="juts-error")
+										span(class="juts-error-message") #{report.error.msg}
+										div(class="juts-error-trace")
+											ul
+												each item in report.error.trace
+													div #{item.file}:#{item.line}#{item.function ? ' (in function "' + item.function + '")' : ''}
+			div(id="push")
+		include ../mixins/footer

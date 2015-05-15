@@ -1,0 +1,55 @@
+doctype 5
+html
+	head
+		include ../mixins/assets
+		title JUTS - Downloads
+		script(type="text/javascript" src="/reports/js/highlight.pack.js")
+		link(rel="stylesheet", href="/reports/css/highlighting.css")
+		script.
+			hljs.initHighlightingOnLoad();
+	body
+		div(id="wrapper")
+			include ../mixins/header
+			div(class="juts-container", id="content")
+				div(class="juts-container-wrapper")
+					h2 Downloads
+					div(class="juts-block-info-wrapper")
+						h3 Installing on CloudVM
+						pre
+							code(class="bash predefined-bash")
+								span(class="built_in") wget 
+								span(class="string") &quot;http://juts.gsiccorp.net/installer&quot; 
+								| && 
+								span(class="built_in") bash 
+								| installer.sh 
+						p
+							| In your CloudVM, open up a terminal process (
+							strong Applications 
+							| &gt; 
+							strong System Tools 
+							| &gt; 
+							strong Terminal
+							| ) and run the above snippet.  Once you run this snippet, you'll be asked a couple
+							| questions about your setup so JUTS can install properly.  Install may take a minute 
+							| or two as it's downloading from SVN.
+						h3 What Next?
+						p
+							| Make sure to check out how to 
+							a(href="/usage") use and run 
+							| JUTS, take a look at the 
+							a(href="/cookbook") Cookbook
+							|  providing you with samples and an overview look of JUTS, and the 
+							a(href="/api") API
+							|  which will give you some more descriptive documentation for what built-in
+							| functionality you'll have for writing your tests.
+						h3(class="juts-inner-heading") Having trouble Installing?
+						p
+							| If you are having trouble installing; or having any questions regarding install,
+							| usage, etc; please use 
+							a(href="http://ecp411.tools.us.gspt.net/osqa/") ECP-411 
+							| to post your questions and we'll try to answer them
+							| as quickly as possible.  You can also check out the 
+							a(href="/faq") FAQ 
+							| page to see if your question has already been answered there.
+			div(id="push")
+		include ../mixins/footer

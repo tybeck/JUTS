@@ -1,0 +1,203 @@
+doctype 5
+html
+	head
+		include ../mixins/assets
+		title JUTS - Cookbook
+		script(type="text/javascript" src="/reports/js/highlight.pack.js")
+		link(rel="stylesheet", href="/reports/css/highlighting.css")
+		script.
+			hljs.initHighlightingOnLoad();
+	body
+		div(id="wrapper")
+			div(id="container")
+				include ../mixins/header
+				div(class="juts-container", id="content")
+					div(class="juts-container-wrapper")
+						div(class="juts-cookbook-wrapper")
+							h2 Cookbook - v#{version}
+							h3(class="juts-cookbook-heading juts-getting-started") Getting Started
+							div(class="juts-cb-info-wrapper")
+								h3 Prerequisites
+								p
+									| Before jumping into the nitty gritty, we need to make sure our configuration and 
+									| install is correctly setup.  If you haven't already downloaded the 
+									strong development environment
+									| , please head over to the 
+									a(href="/downloads") downloads section 
+									| and download the master install script.  This will help you through the process of installing 
+									| the version you'll need for your webstore.  If you are unable to find your webstore during 
+									| installation, then your team hasn't requested for an JUTS environment to be configured.  If 
+									| you would like an environment setup, please contact the Storefront team.
+								h3 Jumping in!
+								p
+									| Now that we have our environment setup, we can continue onto our unit testing.  JUTS is currently 
+									| split into two types of testing; 
+									a(href="http://en.wikipedia.org/wiki/Functional_testing") functional 
+									| and 
+									a(href="http://en.wikipedia.org/wiki/Integration_testing") intergration.
+									|   Functional tests will validate core functionality allowing us to keep legacy code 
+									| automatically tested. Intergration tests will allow us to automatically verify key 
+									| behavior patterns within multiple areas of our webstore and more.  
+								h3(id="StartNodeAndProperties-Section") Start Nodes and Properties
+								p
+									| JUTS makes use of property files to configure certain properties that are most likely
+									| going to change across webstores.  After installing JUTS, you'll notice in your 
+									span(class="juts-important") /development.x/.../<cartridges>
+									|  a new cartridge called 
+									span(class="juts-important") gsi_pf_juts
+									| .  Here is an example of an property file for the v11 webstore:
+								div(class="juts-filename") /development.x/.../gsi_pf_juts/staticfiles/cartridge/config/&lt;filename.properties&gt;:
+								div(class="juts-properties-syntax")
+									div
+										div(class="juts-comment") 
+											| # This tell's us where to look for our functional and intergration test node. JUTS will use these as it's
+											br
+											| # starting point for testing. JUTS will automatically point to the static javascript directory in gsi_pf_juts.
+											br
+											| # This path being: 
+											span(class="juts-filepath") /development.x/.../gsi_pf_juts/staticfiles/cartridge/static/default/js/<your_file.js>
+										span(class="juts-property") juts.functional=
+										span tests/core/start.js
+									div 
+										span(class="juts-property") juts.intergration=
+										span tests/core/intergrate.js
+									div 
+										div(class="juts-comment")
+											| # This property is for 
+											strong intergration testing only
+											|  if your not running intergration tests, this is not needed.  "webpath" 
+											br
+											| # tell's the intergration test where to start from on the webstore; as you can see below, TMSNA is pointing to the 
+											br 
+											| # homepage.  JUTS will 
+											strong automatically 
+											| retrieve the protocol, hostname, and port.  Like so:
+											br
+											br
+											| # &lt;http:https&gt;://localhost:&lt;port(x080|x443)&gt;/WFS/&lt;webpath&gt; &lt;- this part you'll need for "webpath"
+
+										span(class="juts-property") juts.webpath=
+										span TMSUS/en_US/-/USD/
+								h3 How does this hook-up to SVN?
+								p
+									| Depending on which version you downloaded; the cartridge 
+									span(class="juts-important") gsi_pf_juts
+									|  will be hooked up to the 
+									a(href="http://devsvn.gspt.net/svn/components/sandbox/js/") dev svn 
+									| with your configuration and test scripts.  Here is the standard directory tree:
+								ul(class="juts-directory-tree")
+									li gsi_pf_juts/ 
+									li(class="juts-nested-tree-1") staticfiles/
+									li(class="juts-nested-tree-2") cartridge/
+									li(class="juts-nested-tree-3") 
+										ul 
+											li config/
+											li(class="juts-nested-tree-1") &lt;file&gt;.properties
+									li(class="juts-nested-tree-3") static/
+									li(class="juts-nested-tree-4") default/
+									li(class="juts-nested-tree-5") 
+										ul
+											li js/
+											li(class="juts-nested-tree-1") &lt;functional-node&gt;.js
+											li(class="juts-nested-tree-1") &lt;intergration-node&gt;.js
+								p 
+									| Each webstore (plus TMSNA) will have their own 
+									span(class="juts-important") gsi_pf_juts
+									|  cartridge containing it's test scripts plus configuration.  This
+									| allow's each webstore to setup their own environment.
+								h3 Basic Test Scripts
+								p
+									| Now that we have a basic understanding of how everything is hooked up, let's dive into
+									| some quick examples of an functional and intergration tests and see how they differ from 
+									| each other.
+							h3(class="juts-cookbook-heading") Functional Test
+							pre
+								code(class="javascript")
+									| juts.begin(function() {
+									| 	var self = this;
+									|	self.require([
+									|		'gsi_pf_sf/jquery-1.7.2.js'
+									|	], function() {
+									| 		self.beginSuite('Testing jQuery', function() {
+									|			var tester = this;
+									|			tester.assertExists($, 'Does jQuery exist?');
+									|			tester.assertExists($.ready, 'Can we find the ready event?');
+									|			$.get('http://www.google.com', function() {
+									|				tester.assert(true, 'Was able to hit google with $.get');
+									|				self.done();
+									|			});
+									|		});
+									|	});
+									| });
+
+							h3(class="juts-cookbook-heading") Intergration Test
+							pre
+								code(class="javascript")
+									| juts.begin([
+									| 	function Homepage() {
+									| 		this.beginSuite('Testing Homepage', function() {
+									| 			this.assertVisible('.ws-container-login-utilities a', 'Are these all visible?');
+									| 		});
+									| 		this.open('login');
+									| 	},
+									| 	function Login() {
+									| 		this.beginSuite('Testing Login', function() {
+									| 			this.assertExistsSelector('#LoginForm_Login', 'Are we able to find the username textbox?');
+									| 		});
+									| 		this.done();
+									| 	}
+									| ]);
+							h3(class="juts-cookbook-heading") Review
+							div(class="juts-cb-info-wrapper")
+								p 
+									| As you can see, both Functional and Intergration tests are very similiar, but has one distinct difference in the way they're 
+									| setup; you can see this within the 
+									span(class="juts-function") begin
+									|  method.  When setting up a functional test; the 
+									span(class="juts-function") begin 
+									| method will always only take a function.
+								pre(class="within-block")
+									code(class="javascript")
+										| juts.begin(function() { ... });
+								p
+									| On the other hand, intergration tests will always take a function 
+									strong or
+									|  an array of functions.  Now why would we want to send in an array of functions?  Intergration tests run directly on the webstore, which is where our 
+									span(class="juts-important") juts.webpath 
+									| property (from our configuration files, please see 
+									a(href="#StartNodeAndProperties-Section") Start Nodes and Properties
+									|  section if your lost) comes into play; this path will always lead to the 
+									strong first page
+									|  you'd like to test from, in TMSNA's case, this is the homepage.
+									| Because of this, there may be more than one page we would like to test on.  So how does this correlate with using an array of functions?  As you can
+									| see in our intergration example; we have an array of functions with the definition name's of 
+									span(class="juts-function") Homepage()
+									|  and 
+									span(class="juts-function") Login()
+									| .  JUTS will sequentially step each function in our array, the first index will always be invoked first when loading your webstore.  When a navigation request 
+									| occurs, JUTS will then sequentially step to the next available function in our array until there are no step's left; at your last step, make sure you 
+									strong always 
+									| call 
+									span(class="juts-function-pre") juts.
+									span(class="juts-function") done()
+									| !  This tell's JUTS that are you finished and you want to exit out of our testing.
+									pre(class="within-block")
+										code(class="javascript")
+											| juts.begin([
+											| 	function Homepage() {
+											|		// initial invocation, start your homepage testing here ... 		
+											|		// JUTS will automatically goto the "webpath" defined in our configuration.
+											|		// 
+											|		// Look at "open" method in the API for more information; this will redirect our 
+											|		// current page to the login page; because JUTS already know's the webstore path
+											|		// from our properties.
+											|		this.open('login');
+											| 	},
+											|	function Login() {
+											|		// invoked on next navigation request, we are expecting us to land on the login page. 
+											| 		// run login tests here...
+											| 		this.done(); // exit out of our testing
+											|	}
+											| ]);
+				div(id="push")
+			include ../mixins/footer
